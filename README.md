@@ -1,38 +1,18 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 큐브팡
 
-## Getting Started
+- 5 x 5 퍼즐게임
 
-First, run the development server:
+# How to Play
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- 이동하고자 하는 큐브를 클릭하고, 상하좌우 한칸 이내에 있는 큐브를 클릭
+- 같은 큐브가 상하좌우로 세개씩 연속되면 점수를 획득 (큐브 1개당 100점)
+- 이동 시 큐브 제거가 되지않으면 움직이지 않음
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# CheckList
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [x] 블록 옮기기 (이동 제한)
+- [x] 블록 지우기 (연속되는 큐브 찾는 로직)
+- [x] 타이머 만들기
+- [ ] 랭킹보드 만들기
+- [ ] 큐브 움직임 애니메이션
+- [ ] README.md 정리
