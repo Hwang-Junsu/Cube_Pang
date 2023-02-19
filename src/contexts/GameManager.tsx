@@ -23,7 +23,9 @@ interface IGameManagerProps {
   secondChoice: Nullable<IBlockIndex>;
   onSelect: (x: number, y: number) => void;
   score: number;
-  timer: number;
+  handleGameStart: () => void;
+  handleGameInit: () => void;
+  isGamePlay: boolean;
 }
 
 const initialProps: IGameManagerProps = {
@@ -32,7 +34,9 @@ const initialProps: IGameManagerProps = {
   secondChoice: null,
   onSelect: () => {},
   score: 0,
-  timer: 60,
+  handleGameStart: () => {},
+  handleGameInit: () => {},
+  isGamePlay: false,
 };
 
 const GameManager = createContext(initialProps);
@@ -59,7 +63,6 @@ const GameProvider = ({children}: Props) => {
   const [isHandleSwap, setIsHandleSwap] = useState<boolean>(false);
   const [isGamePlay, setIsGamePlay] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
-  const [timer, setTimer] = useState<number>(60);
 
   const onSelect = (cx: number, cy: number) => {
     if (isBreakTime) return;
@@ -70,9 +73,29 @@ const GameProvider = ({children}: Props) => {
     }
   };
 
+  const handleGameInit = useCallback(() => {
+    setFirstChoice(null);
+    setSecondChoice(null);
+    setIsBreakTime(false);
+    setIsHandleSwap(false);
+    setIsGamePlay(false);
+    setScore(0);
+    setBoard(
+      Array.from({length: BOARD_SIZE}, () =>
+        Array.from({length: BOARD_SIZE}, () => {
+          const randomNum = Math.floor(Math.random() * COLORS_LENGTH);
+          return {
+            color: BLOCK_COLORS[COLORS[randomNum]],
+            value: COLORS[randomNum],
+          };
+        })
+      )
+    );
+  }, []);
+
   const handleGameStart = useCallback(() => {
     setIsGamePlay(true);
-  }, [timer]);
+  }, []);
 
   const handleConvert = useCallback((blocks: IBlockIndex[]) => {
     const destroyBlocks = blocks;
@@ -96,7 +119,7 @@ const GameProvider = ({children}: Props) => {
         row.filter((block) => block.value !== "broken")
       );
     });
-  }, [board]);
+  }, []);
 
   const handleFillBoard = useCallback(() => {
     setBoard((prevBoard) => {
@@ -116,7 +139,7 @@ const GameProvider = ({children}: Props) => {
       }
       return newBoard;
     });
-  }, [board]);
+  }, []);
 
   const handleSwap = useCallback(
     (first: IBlockColorWithIndex, second: IBlockColorWithIndex) => {
@@ -147,8 +170,13 @@ const GameProvider = ({children}: Props) => {
         setIsHandleSwap(true);
       }, 900);
     },
-    [board]
+    [board, handleBreak, handleConvert, handleFillBoard]
   );
+
+  useEffect(() => {
+    handleGameInit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (firstChoice && secondChoice) {
@@ -159,29 +187,50 @@ const GameProvider = ({children}: Props) => {
       setFirstChoice(null);
       setSecondChoice(null);
     }
-  }, [setSecondChoice, secondChoice]);
+  }, [board, firstChoice, handleSwap, setSecondChoice, secondChoice]);
 
   useEffect(() => {
-    setIsHandleSwap(false);
-    const blocks = analyzeBoard(board);
-    if (blocks.length > 0) setIsBreakTime(true);
-    setTimeout(() => {
-      handleConvert(blocks);
-    }, 100);
-    setTimeout(() => {
-      if (isBreakTime) {
-        handleBreak();
+    if (isGamePlay) {
+      setIsHandleSwap(false);
+      const blocks = analyzeBoard(board);
+      if (blocks.length > 0) {
+        setIsBreakTime(true);
         setTimeout(() => {
-          handleFillBoard();
-          setIsBreakTime(false);
-        }, 200);
+          handleConvert(blocks);
+        }, 100);
+        setTimeout(() => {
+          if (isBreakTime) {
+            handleBreak();
+            setTimeout(() => {
+              handleFillBoard();
+              setIsBreakTime(false);
+            }, 200);
+          }
+        }, 700);
       }
-    }, 700);
-  }, [isBreakTime, isHandleSwap]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    isGamePlay,
+    isBreakTime,
+    isHandleSwap,
+    handleBreak,
+    handleConvert,
+    handleFillBoard,
+  ]);
 
   return (
     <GameManager.Provider
-      value={{board, firstChoice, secondChoice, onSelect, score, timer}}
+      value={{
+        board,
+        firstChoice,
+        secondChoice,
+        onSelect,
+        score,
+        handleGameStart,
+        handleGameInit,
+        isGamePlay,
+      }}
     >
       {children}
     </GameManager.Provider>

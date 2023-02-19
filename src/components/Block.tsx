@@ -1,26 +1,28 @@
-import React, { useContext, useEffect, useState } from "react";
-import styled, { css } from "styled-components";
-import { BLOCK_X_POSITION, BLOCK_Y_POSITION } from "@/constants/constants";
-import { IBlockRenderProps } from "@/types/render";
-import { v4 as uuid } from "uuid";
-import { RENDER } from "@/styles/theme";
-import { blockShakingAnimation, blockFadeOut } from "@/styles/animations";
-import { IBlockProps } from "@/types/logic";
-import { GameManager } from "@/contexts/GameManager";
+import React, {useContext, useEffect, useState} from "react";
+import styled, {css} from "styled-components";
+import {BLOCK_X_POSITION, BLOCK_Y_POSITION} from "@/constants/constants";
+import {IBlockRenderProps} from "@/types/render";
+import {v4 as uuid} from "uuid";
+import {RENDER} from "@/styles/theme";
+import {blockShakingAnimation, blockFadeOut} from "@/styles/animations";
+import {IBlockProps} from "@/types/logic";
+import {GameManager} from "@/contexts/GameManager";
 
-const Block = ({ x, y, color, value }: IBlockProps) => {
-  const { onSelect, firstChoice } = useContext(GameManager);
+const Block = ({x, y, color, value}: IBlockProps) => {
+  const {onSelect, firstChoice} = useContext(GameManager);
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [isAnimated, setIsAnimated] = useState<boolean>(false);
 
   useEffect(() => {
     if (value === "broken") setIsAnimated(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (firstChoice && x === firstChoice.x && y === firstChoice.y)
       setIsSelected(true);
     else setIsSelected(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firstChoice]);
 
   return (

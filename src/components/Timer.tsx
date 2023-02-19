@@ -1,16 +1,21 @@
-import { TimerContext } from "@/contexts/TimerContext";
-import { RENDER } from "@/styles/theme";
-import React, { useContext } from "react";
+import {TimerContext} from "@/contexts/TimerContext";
+import {RENDER} from "@/styles/theme";
+import React, {useContext, useEffect} from "react";
 import styled from "styled-components";
 
 const Timer = () => {
-  const { timer, handleTimerStart } = useContext(TimerContext);
+  const {timer, handleTimerInit, handleCountDownInit} =
+    useContext(TimerContext);
 
-  return (
-    <StyledTimer onClick={handleTimerStart}>
-      Remain Time | {timer.toFixed(1)}
-    </StyledTimer>
-  );
+  useEffect(() => {
+    return () => {
+      handleTimerInit();
+      handleCountDownInit();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleTimerInit]);
+
+  return <StyledTimer>Remain Time | {timer.toFixed(1)}</StyledTimer>;
 };
 
 export default Timer;

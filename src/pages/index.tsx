@@ -1,9 +1,11 @@
 import Layout from "@/components/Layout";
-import { NextPage } from "next/types";
+import {NextPage} from "next/types";
 import styled from "styled-components";
 import Board from "@/components/Board";
 import ScoreBoard from "@/components/ScoreBoard";
 import Timer from "@/components/Timer";
+import StartCount from "@/components/StartCount";
+import ResultBoard from "@/components/ResultBoard";
 
 const Home: NextPage = () => {
   return (
@@ -15,6 +17,8 @@ const Home: NextPage = () => {
         </StyledGameInfoContainer>
         <Board />
       </StyledContainer>
+      <StartCount />
+      <ResultBoard />
     </Layout>
   );
 };

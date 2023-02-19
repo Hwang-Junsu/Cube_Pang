@@ -1,18 +1,20 @@
-import { RENDER } from "@/styles/theme";
-import { IBoardRenderProps } from "@/types/render";
-import { GameManager } from "@/contexts/GameManager";
-import React, { useContext, useEffect, useState } from "react";
+import {RENDER} from "@/styles/theme";
+import {IBoardRenderProps} from "@/types/render";
+import {GameManager} from "@/contexts/GameManager";
+import React, {useContext, useEffect, useState} from "react";
 import styled from "styled-components";
-import { v4 as uuid } from "uuid";
+import {v4 as uuid} from "uuid";
 import Block from "./Block";
 
 const Board = () => {
-  const { board } = useContext(GameManager);
+  const {board, handleGameInit} = useContext(GameManager);
   const [isRender, setIsRender] = useState(false);
 
   useEffect(() => {
     setIsRender(true);
-  }, []);
+
+    return () => handleGameInit();
+  }, [handleGameInit]);
 
   return (
     <StyledBoard>
