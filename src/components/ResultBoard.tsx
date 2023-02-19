@@ -2,15 +2,27 @@ import {GameManager} from "@/contexts/GameManager";
 import {TimerContext} from "@/contexts/TimerContext";
 import {RENDER} from "@/styles/theme";
 import {useRouter} from "next/router";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
+import Image from "next/legacy/image";
+import exitIcon from "/public/arrow-right-from-bracket.svg";
+import restartIcon from "/public/arrow-roatate-left.svg";
 import styled from "styled-components";
 
 const ResultBoard = () => {
-  const {timer, handleCountDownInit} = useContext(TimerContext);
-  const {score} = useContext(GameManager);
+  const {timer, handleCountDownStart, handleTimerInit, handleCountDownInit} =
+    useContext(TimerContext);
+  const {score, handleGameStart, handleGameInit} = useContext(GameManager);
   const [isGameOver, setIsGameOver] = useState(false);
 
   const router = useRouter();
+
+  const onRestart = useCallback(() => {
+    handleGameStart();
+    handleTimerInit();
+    setIsGameOver(false);
+    handleCountDownStart();
+    handleGameInit();
+  }, []);
 
   useEffect(() => {
     if (timer <= 0) {
@@ -32,9 +44,11 @@ const ResultBoard = () => {
             </div>
             <StyledButtonContainer>
               <StyledButton onClick={() => router.push("/home")}>
-                뒤로가기
+                <Image src={exitIcon} width={30} height={30} alt="exit" />
               </StyledButton>
-              <StyledButton>다시하기</StyledButton>
+              <StyledButton onClick={() => onRestart()}>
+                <Image src={restartIcon} width={30} height={30} alt="restart" />
+              </StyledButton>
             </StyledButtonContainer>
           </StyledContainer>
         </StyledLayout>
@@ -69,7 +83,7 @@ const StyledContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 70px;
+  gap: 50px;
 
   padding: 0px 50px;
 
@@ -96,4 +110,17 @@ const StyledButtonContainer = styled.div`
 const StyledButton = styled.button`
   width: 50px;
   height: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+
+  box-shadow: ${(props) => props.theme.boxShadow.normal};
+  ${RENDER.glassmophism}
+
+  &:hover {
+    transform: scale(1.05);
+    transition: all 0.3s ease-in-out;
+  }
 `;
