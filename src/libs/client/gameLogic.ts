@@ -1,6 +1,6 @@
-import { IBlockColorWithIndex } from "./../../types/logic.d";
-import { BOARD_SIZE } from "@/constants/constants";
-import { IBlockColor, IBlockIndex } from "@/types/logic";
+import {IBlockColorWithIndex} from "./../../types/logic.d";
+import {BOARD_SIZE} from "@/constants/constants";
+import {IBlockColor, IBlockIndex} from "@/types/logic";
 
 const dx = [-1, 0, 1, 0];
 const dy = [0, 1, 0, -1];
@@ -35,9 +35,9 @@ export function analyze(
   let ny = index.y + dy[dir];
   while (true) {
     if (nx < 0 || ny < 0 || nx >= BOARD_SIZE || ny >= BOARD_SIZE) break; // 범위를 나가면 멈춤
-    if (!isSequencialWithData(board, { x: nx, y: ny }, index.value)) break; // 연속되지 않으면 멈춤
-    if (nx === ignoreIndex?.x && ny === ignoreIndex?.y) break; // 무시해야하는 좌표와 동일하면서 밸류값이 다를 때 넘어가기
-    blocks.push({ x: nx, y: ny, value: index.value });
+    if (!isSequencialWithData(board, {x: nx, y: ny}, index.value)) break; // 연속되지 않으면 멈춤
+    if (ignoreIndex && nx === ignoreIndex.x && ny === ignoreIndex.y) break; // 무시해야하는 좌표일 때 멈춤
+    blocks.push({x: nx, y: ny, value: index.value});
     nx += dx[dir];
     ny += dy[dir];
   }
@@ -50,24 +50,24 @@ export function analyzePuzzleBlock(
   ignoreIndex?: IBlockColorWithIndex
 ) {
   let toBeDestroyedBlockIndex: IBlockIndex[] = [];
-
   for (let i = 0; i < 2; i++) {
     const line = [
       ...analyze(board, index, i, ignoreIndex),
-      index,
       ...analyze(board, index, i + 2, ignoreIndex),
     ];
-    if (line.length >= 3) {
-      toBeDestroyedBlockIndex = [...line];
+    if (line.length >= 2) {
+      line.forEach((block) => toBeDestroyedBlockIndex.push(block));
     }
   }
+  if (toBeDestroyedBlockIndex.length > 0)
+    toBeDestroyedBlockIndex.push({x: index.x, y: index.y});
   return toBeDestroyedBlockIndex;
 }
 
 export function analyzeBoard(board: IBlockColor[][]) {
   let destoryedBlocks: IBlockIndex[] = [];
-  let visited = Array.from({ length: BOARD_SIZE }, () =>
-    Array.from({ length: BOARD_SIZE }, () => false)
+  let visited = Array.from({length: BOARD_SIZE}, () =>
+    Array.from({length: BOARD_SIZE}, () => false)
   );
 
   for (let i = 0; i < BOARD_SIZE; i++) {
@@ -91,8 +91,8 @@ export function hasDestroyedBlock(
   index1: IBlockColorWithIndex,
   index2: IBlockColorWithIndex
 ) {
-  const swapIndex1 = { ...index1, value: index2.value };
-  const swapIndex2 = { ...index2, value: index1.value };
+  const swapIndex1 = {...index1, value: index2.value};
+  const swapIndex2 = {...index2, value: index1.value};
 
   const toBeDestroyed = [
     ...analyzePuzzleBlock(board, swapIndex1, index2),

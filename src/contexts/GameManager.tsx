@@ -15,7 +15,7 @@ import {
   IBlockIndex,
   Nullable,
 } from "@/types/logic";
-import { createContext, useCallback, useEffect, useState } from "react";
+import {createContext, useCallback, useEffect, useState} from "react";
 
 interface IGameManagerProps {
   board: IBlockColor[][];
@@ -41,10 +41,10 @@ interface Props {
   children: JSX.Element | JSX.Element[];
 }
 
-const GameProvider = ({ children }: Props) => {
+const GameProvider = ({children}: Props) => {
   const [board, setBoard] = useState<IBlockColor[][]>(
-    Array.from({ length: BOARD_SIZE }, () =>
-      Array.from({ length: BOARD_SIZE }, () => {
+    Array.from({length: BOARD_SIZE}, () =>
+      Array.from({length: BOARD_SIZE}, () => {
         const randomNum = Math.floor(Math.random() * COLORS_LENGTH);
         return {
           color: BLOCK_COLORS[COLORS[randomNum]],
@@ -64,9 +64,9 @@ const GameProvider = ({ children }: Props) => {
   const onSelect = (cx: number, cy: number) => {
     if (isBreakTime) return;
     if (!firstChoice) {
-      setFirstChoice({ x: cx, y: cy });
+      setFirstChoice({x: cx, y: cy});
     } else {
-      setSecondChoice({ x: cx, y: cy });
+      setSecondChoice({x: cx, y: cy});
     }
   };
 
@@ -125,12 +125,12 @@ const GameProvider = ({ children }: Props) => {
       const toBeDestroyed = hasDestroyedBlock(board, first, second);
       if (!toBeDestroyed.length) return;
 
-      const save = board[first!.x][first!.y];
+      const saveFirst = board[first!.x][first!.y];
+      const saveSecond = board[second!.x][second!.y];
       setBoard((prevBoard: IBlockColor[][]) => {
         const newBoard = [...prevBoard];
-
-        newBoard[first!.x][first!.y] = prevBoard[second!.x][second!.y];
-        newBoard[second!.x][second!.y] = save;
+        newBoard[first!.x][first!.y] = saveSecond;
+        newBoard[second!.x][second!.y] = saveFirst;
 
         return newBoard;
       });
@@ -153,8 +153,8 @@ const GameProvider = ({ children }: Props) => {
   useEffect(() => {
     if (firstChoice && secondChoice) {
       handleSwap(
-        { ...firstChoice, value: board[firstChoice.x][firstChoice.y].value },
-        { ...secondChoice, value: board[secondChoice.x][secondChoice.y].value }
+        {...firstChoice, value: board[firstChoice.x][firstChoice.y].value},
+        {...secondChoice, value: board[secondChoice.x][secondChoice.y].value}
       );
       setFirstChoice(null);
       setSecondChoice(null);
@@ -181,11 +181,11 @@ const GameProvider = ({ children }: Props) => {
 
   return (
     <GameManager.Provider
-      value={{ board, firstChoice, secondChoice, onSelect, score, timer }}
+      value={{board, firstChoice, secondChoice, onSelect, score, timer}}
     >
       {children}
     </GameManager.Provider>
   );
 };
 
-export { GameManager, GameProvider };
+export {GameManager, GameProvider};

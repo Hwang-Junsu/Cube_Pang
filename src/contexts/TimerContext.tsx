@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useState } from "react";
+import {createContext, useCallback, useEffect, useState} from "react";
 
 const initialProps = {
   timer: 60,
@@ -12,9 +12,10 @@ interface Props {
   handleStart?: () => void;
 }
 
-const TimerProvider = ({ children }: Props) => {
+const TimerProvider = ({children}: Props) => {
   const [timer, setTimer] = useState<number>(10);
   const [isWorkTimer, setIsWorkTimer] = useState<boolean>(false);
+  const [startCount, setStartCount] = useState<boolean>(false);
 
   const handleWork = useCallback<() => void>(() => {
     setTimer((time) => time - 0.1);
@@ -40,13 +41,13 @@ const TimerProvider = ({ children }: Props) => {
     }
 
     return () => clearInterval(timerId);
-  }, [timer]);
+  }, [timer, handleStop, handleWork, isWorkTimer]);
 
   return (
-    <TimerContext.Provider value={{ timer, handleTimerStart }}>
+    <TimerContext.Provider value={{timer, handleTimerStart}}>
       {children}
     </TimerContext.Provider>
   );
 };
 
-export { TimerContext, TimerProvider };
+export {TimerContext, TimerProvider};
