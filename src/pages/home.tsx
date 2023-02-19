@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
-import { RENDER } from "@/styles/theme";
-import { NextPage } from "next";
+import {RENDER} from "@/styles/theme";
+import {NextPage} from "next";
 import Link from "next/link";
 import styled from "styled-components";
 
@@ -13,8 +13,8 @@ const Home: NextPage = () => {
           <StyledNav>
             <Link href="/">Game Start</Link>
           </StyledNav>
-          <StyledNav>Ranking</StyledNav>
-          <StyledNav>Log Out</StyledNav>
+          {/* <StyledNav>Ranking</StyledNav>
+          <StyledNav>Log Out</StyledNav> */}
         </StyledMenu>
       </StyledContainer>
     </Layout>
