@@ -39,11 +39,8 @@ export default Board;
 
 const StyledBoard = styled.div<IBoardRenderProps>`
   position: relative;
-
-  background: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
-
   border-radius: 30px;
-  box-shadow: ${(props) => props.theme.boxShadow.normal};
 
   ${RENDER.boardSize};
+  ${RENDER.glassmophism};
 `;

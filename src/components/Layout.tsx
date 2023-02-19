@@ -31,5 +31,5 @@ const StyledMain = styled.main`
   justify-content: center;
   align-items: center;
 
-  background: linear-gradient(to top, #5ee7df 0%, #b490ca 100%);
+  background: linear-gradient(to top, #30cfd0 -10%, #330867 100%);
 `;

@@ -22,6 +22,8 @@ interface IGameManagerProps {
   firstChoice: Nullable<IBlockIndex>;
   secondChoice: Nullable<IBlockIndex>;
   onSelect: (x: number, y: number) => void;
+  score: number;
+  timer: number;
 }
 
 const initialProps: IGameManagerProps = {
@@ -29,6 +31,8 @@ const initialProps: IGameManagerProps = {
   firstChoice: null,
   secondChoice: null,
   onSelect: () => {},
+  score: 0,
+  timer: 60,
 };
 
 const GameManager = createContext(initialProps);
@@ -53,6 +57,9 @@ const GameProvider = ({ children }: Props) => {
   const [secondChoice, setSecondChoice] = useState<Nullable<IBlockIndex>>(null);
   const [isBreakTime, setIsBreakTime] = useState<boolean>(false);
   const [isHandleSwap, setIsHandleSwap] = useState<boolean>(false);
+  const [isGamePlay, setIsGamePlay] = useState<boolean>(false);
+  const [score, setScore] = useState<number>(0);
+  const [timer, setTimer] = useState<number>(60);
 
   const onSelect = (cx: number, cy: number) => {
     if (isBreakTime) return;
@@ -62,6 +69,10 @@ const GameProvider = ({ children }: Props) => {
       setSecondChoice({ x: cx, y: cy });
     }
   };
+
+  const handleGameStart = useCallback(() => {
+    setIsGamePlay(true);
+  }, [timer]);
 
   const handleConvert = useCallback((blocks: IBlockIndex[]) => {
     const destroyBlocks = blocks;
@@ -74,6 +85,7 @@ const GameProvider = ({ children }: Props) => {
 
       return newBoard;
     });
+    setScore((prev) => prev + destroyBlocks.length * 100);
   }, []);
 
   const handleBreak = useCallback(() => {
@@ -169,7 +181,7 @@ const GameProvider = ({ children }: Props) => {
 
   return (
     <GameManager.Provider
-      value={{ board, firstChoice, secondChoice, onSelect }}
+      value={{ board, firstChoice, secondChoice, onSelect, score, timer }}
     >
       {children}
     </GameManager.Provider>

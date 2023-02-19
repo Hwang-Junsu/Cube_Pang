@@ -3,13 +3,13 @@ import { keyframes } from "styled-components";
 
 export const blockShakingAnimation = (x: number, y: number) => keyframes`
     0% {
-        transform: translateX(${x}px) translateY(${y}px) rotate(10deg);
+        transform: translateX(${x}px) translateY(${y}px) rotate(10deg) scale(1.1);
     }
     50% {
-        transform: translateX(${x}px) translateY(${y}px) rotate(-10deg);
+        transform: translateX(${x}px) translateY(${y}px) rotate(-10deg) scale(1.1);
     }
     100% {
-        transform: translateX(${x}px) translateY(${y}px) rotate(10deg);
+        transform: translateX(${x}px) translateY(${y}px) rotate(10deg) scale(1.1);
     }
 `;
 
