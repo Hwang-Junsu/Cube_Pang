@@ -1,26 +1,23 @@
+import {COUNTDOWN_TIME, PLAY_TIME} from "@/constants/constants";
+import {ITimerContextProps, Props} from "@/types/logic";
 import {createContext, useCallback, useEffect, useState} from "react";
 
-const initialProps = {
-  timer: 60,
+const initialProps: ITimerContextProps = {
+  timer: PLAY_TIME,
   handleTimerStart: () => {},
   handleCountDownStart: () => {},
   handleTimerInit: () => {},
   handleCountDownInit: () => {},
-  startCount: 3,
+  startCount: COUNTDOWN_TIME,
   isWorkTimer: false,
 };
 
 const TimerContext = createContext(initialProps);
 
-interface Props {
-  children: JSX.Element | JSX.Element[];
-  handleStart?: () => void;
-}
-
 const TimerProvider = ({children}: Props) => {
-  const [timer, setTimer] = useState<number>(60);
+  const [timer, setTimer] = useState<number>(PLAY_TIME);
   const [isWorkTimer, setIsWorkTimer] = useState<boolean>(false);
-  const [startCount, setStartCount] = useState<number>(3);
+  const [startCount, setStartCount] = useState<number>(COUNTDOWN_TIME);
   const [isCountDown, setIsCountDown] = useState<boolean>(false);
 
   const handleWork = useCallback<() => void>(() => {
@@ -32,22 +29,22 @@ const TimerProvider = ({children}: Props) => {
   }, []);
 
   const handleTimerStart = useCallback(() => {
-    setTimer(60);
+    setTimer(PLAY_TIME);
     setIsWorkTimer(true);
   }, []);
 
   const handleCountDownStart = useCallback(() => {
-    setStartCount(3);
+    setStartCount(COUNTDOWN_TIME);
     setIsCountDown(true);
   }, []);
 
   const handleTimerInit = useCallback(() => {
-    setTimer(60);
+    setTimer(PLAY_TIME);
     setIsWorkTimer(false);
   }, []);
 
   const handleCountDownInit = useCallback(() => {
-    setStartCount(3);
+    setStartCount(COUNTDOWN_TIME);
     setIsCountDown(false);
   }, []);
 

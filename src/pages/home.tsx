@@ -1,22 +1,48 @@
 import Layout from "@/components/Layout";
+import Logo from "@/components/Logo";
+import Modal from "@/components/Modal";
+import {UserContext} from "@/contexts/UserContext";
 import {RENDER} from "@/styles/theme";
 import {NextPage} from "next";
-import Link from "next/link";
+import {useRouter} from "next/router";
+import {useContext, useEffect, useState} from "react";
 import styled from "styled-components";
 
 const Home: NextPage = () => {
+  const [isOpenName, setIsOpenName] = useState<boolean>(false);
+  const {handleNameInit} = useContext(UserContext);
+
+  const {name} = useContext(UserContext);
+  const router = useRouter();
+
+  const onClickStart = () => {
+    if (name === "") setIsOpenName((props) => !props);
+  };
+
+  const onClickRanking = () => {
+    router.push("/ranking");
+  };
+
+  const onClickHowToPlay = () => {};
+
+  useEffect(() => {
+    handleNameInit();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Layout seoTitle="Home">
       <StyledContainer>
-        <StyledTitle>Cube Pang</StyledTitle>
+        <Logo />
         <StyledMenu>
-          <StyledNav>
-            <Link href="/">Game Start</Link>
-          </StyledNav>
-          {/* <StyledNav>Ranking</StyledNav>
-          <StyledNav>Log Out</StyledNav> */}
+          <StyledNav onClick={onClickStart}>Game Start</StyledNav>
+          <StyledNav onClick={onClickRanking}>Ranking</StyledNav>
+          <StyledNav onClick={onClickHowToPlay}>How To Play</StyledNav>
         </StyledMenu>
       </StyledContainer>
+
+      {isOpenName && <Modal setIsOpen={setIsOpenName} />}
     </Layout>
   );
 };
@@ -30,25 +56,6 @@ const StyledContainer = styled.div`
 
   width: 400px;
   gap: 30px;
-`;
-
-const StyledTitle = styled.div`
-  height: 100px;
-  border-radius: 15px;
-
-  width: 100%;
-
-  font-size: 3rem;
-  color: white;
-  text-shadow: 2px 4px 10px rgba(48, 57, 121, 0.69);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  user-select: none;
-
-  ${RENDER.glassmophism}
 `;
 
 const StyledMenu = styled.div`
@@ -69,12 +76,13 @@ const StyledMenu = styled.div`
 
 const StyledNav = styled.div`
   text-align: center;
+  font-family: "Russo One", sans-serif;
 
   color: white;
   text-shadow: 2px 4px 10px rgba(48, 57, 121, 0.69);
   font-size: 2rem;
 
-  width: 60%;
+  width: 70%;
   padding: 3px 20px;
 
   background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

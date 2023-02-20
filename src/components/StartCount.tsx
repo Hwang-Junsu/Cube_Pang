@@ -1,5 +1,7 @@
 import {GameManager} from "@/contexts/GameManager";
 import {TimerContext} from "@/contexts/TimerContext";
+import {appearAnimation} from "@/styles/animations";
+import {RENDER} from "@/styles/theme";
 import React, {useContext, useEffect} from "react";
 import styled from "styled-components";
 
@@ -21,7 +23,7 @@ const StartCount = () => {
 
   return (
     <>
-      {startCount > 0 && (
+      {startCount > 0 && !isGamePlay && (
         <StyledLayout>
           <StyledCount>{startCount}</StyledCount>
         </StyledLayout>
@@ -51,5 +53,11 @@ const StyledLayout = styled.div`
 const StyledCount = styled.div`
   font-weight: 600;
   font-size: 50px;
+  color: white;
+  ${RENDER.textShadow}
+
+  font-family: "Russo One", sans-serif;
   opacity: 1;
+
+  animation: ${appearAnimation()} 1.05s 3;
 `;

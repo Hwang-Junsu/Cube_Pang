@@ -13,20 +13,11 @@ import {
   IBlockColor,
   IBlockColorWithIndex,
   IBlockIndex,
+  IGameManagerProps,
   Nullable,
+  Props,
 } from "@/types/logic";
 import {createContext, useCallback, useEffect, useState} from "react";
-
-interface IGameManagerProps {
-  board: IBlockColor[][];
-  firstChoice: Nullable<IBlockIndex>;
-  secondChoice: Nullable<IBlockIndex>;
-  onSelect: (x: number, y: number) => void;
-  score: number;
-  handleGameStart: () => void;
-  handleGameInit: () => void;
-  isGamePlay: boolean;
-}
 
 const initialProps: IGameManagerProps = {
   board: [[]],
@@ -36,14 +27,11 @@ const initialProps: IGameManagerProps = {
   score: 0,
   handleGameStart: () => {},
   handleGameInit: () => {},
+  handleFetchRecord: () => new Promise((resolve) => resolve),
   isGamePlay: false,
 };
 
 const GameManager = createContext(initialProps);
-
-interface Props {
-  children: JSX.Element | JSX.Element[];
-}
 
 const GameProvider = ({children}: Props) => {
   const [board, setBoard] = useState<IBlockColor[][]>(
@@ -73,6 +61,13 @@ const GameProvider = ({children}: Props) => {
       setSecondChoice({x: cx, y: cy});
     }
   };
+
+  const handleFetchRecord = useCallback(async (name: string, score: number) => {
+    await fetch("/api/ranking", {
+      method: "POST",
+      body: JSON.stringify({name, score}),
+    });
+  }, []);
 
   const handleGameInit = useCallback(() => {
     setFirstChoice(null);
@@ -233,6 +228,7 @@ const GameProvider = ({children}: Props) => {
         score,
         handleGameStart,
         handleGameInit,
+        handleFetchRecord,
         isGamePlay,
       }}
     >

@@ -54,8 +54,6 @@ const Block = ({x, y, color, value}: IBlockProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firstChoice]);
 
-  if (secondChoice) console.log(direction);
-
   return (
     <StyledBlock
       key={uuid()}
@@ -82,6 +80,8 @@ const StyledBlock = styled.div<IBlockRenderProps>`
     translateY(${(props) => BLOCK_Y_POSITION(props.y)}px);
 
   transition: all 0.5s ease-in-out;
+
+  cursor: pointer;
 
   box-shadow: ${(props) => props.theme.boxShadow.block};
   ${RENDER.blockSize};

@@ -49,3 +49,27 @@ export const blockSwap = (x: number, y: number, dir: number) => keyframes`
         translateY(${y + direction[dir][1]}px);
     }
 `;
+
+export const tremblingAnimation = () => keyframes`
+    from {
+        transform: translateX(-2px);
+    }
+    to {
+        transform: translateX(2px);
+    }
+`;
+
+export const appearAnimation = () => keyframes`
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(10);
+        opacity: 0;
+    }
+`;
