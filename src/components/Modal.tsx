@@ -144,6 +144,7 @@ const StyledInput = styled.input`
 
   text-align: center;
   font-size: 1rem;
+  outline: none;
   box-shadow: ${(props) => props.theme.boxShadow.normal};
   ${RENDER.textShadow};
 `;
