@@ -1,5 +1,12 @@
-import { BLOCK_RENDER_SIZE } from "./../constants/constants";
-import { keyframes } from "styled-components";
+import {BLOCK_RENDER_SIZE} from "./../constants/constants";
+import {keyframes} from "styled-components";
+
+const direction = [
+  [-BLOCK_RENDER_SIZE, 0],
+  [0, BLOCK_RENDER_SIZE],
+  [BLOCK_RENDER_SIZE, 0],
+  [0, -BLOCK_RENDER_SIZE],
+];
 
 export const blockShakingAnimation = (x: number, y: number) => keyframes`
     0% {
@@ -30,5 +37,15 @@ export const blockTopDown = (x: number, y: number) => keyframes`
     }
     to {
         transform: translateX(${x}px) translateY(${y}px);
+    }
+`;
+
+export const blockSwap = (x: number, y: number, dir: number) => keyframes`
+    from {
+        transform: translateX(${x}px) translateY(${y}px);
+    }
+    to {
+        transform: translateX(${x + direction[dir][0]}px) 
+        translateY(${y + direction[dir][1]}px);
     }
 `;

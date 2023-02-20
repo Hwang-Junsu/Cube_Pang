@@ -48,11 +48,12 @@ interface Props {
 const GameProvider = ({children}: Props) => {
   const [board, setBoard] = useState<IBlockColor[][]>(
     Array.from({length: BOARD_SIZE}, () =>
-      Array.from({length: BOARD_SIZE}, () => {
+      Array.from({length: BOARD_SIZE}, (_, idx) => {
         const randomNum = Math.floor(Math.random() * COLORS_LENGTH);
         return {
           color: BLOCK_COLORS[COLORS[randomNum]],
           value: COLORS[randomNum],
+          index: idx,
         };
       })
     )
@@ -82,11 +83,12 @@ const GameProvider = ({children}: Props) => {
     setScore(0);
     setBoard(
       Array.from({length: BOARD_SIZE}, () =>
-        Array.from({length: BOARD_SIZE}, () => {
+        Array.from({length: BOARD_SIZE}, (_, idx) => {
           const randomNum = Math.floor(Math.random() * COLORS_LENGTH);
           return {
             color: BLOCK_COLORS[COLORS[randomNum]],
             value: COLORS[randomNum],
+            index: idx,
           };
         })
       )
@@ -133,10 +135,12 @@ const GameProvider = ({children}: Props) => {
             newBoard[row].push({
               color: BLOCK_COLORS[COLORS[randomNum]],
               value: COLORS[randomNum],
+              index: BOARD_SIZE - i,
             });
           }
         }
       }
+
       return newBoard;
     });
   }, []);

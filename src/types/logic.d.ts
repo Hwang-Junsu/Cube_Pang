@@ -8,12 +8,15 @@ export interface IBlockIndex {
 export interface IBlockColor {
   color: string;
   value: string;
+  index: number;
 }
 
 export interface IBlockColorWithIndex extends IBlockColor {
   x: number;
   y: number;
+  value: string;
   color?: string;
+  index?: number;
 }
 
 export interface IBlockProps extends IBlockIndex {

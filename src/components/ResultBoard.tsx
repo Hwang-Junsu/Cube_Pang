@@ -22,6 +22,7 @@ const ResultBoard = () => {
     setIsGameOver(false);
     handleCountDownStart();
     handleGameInit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
