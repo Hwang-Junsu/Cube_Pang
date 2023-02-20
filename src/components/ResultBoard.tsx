@@ -9,6 +9,7 @@ import restartIcon from "/public/arrow-roatate-left.svg";
 import rankingIcon from "/public/ranking.svg";
 import styled from "styled-components";
 import {UserContext} from "@/contexts/UserContext";
+import {commaPerThousand} from "@/libs/client/utils";
 
 const ResultBoard = () => {
   const {timer, handleCountDownStart, handleTimerInit, handleCountDownInit} =
@@ -20,6 +21,7 @@ const ResultBoard = () => {
   const router = useRouter();
 
   const onRestart = async () => {
+    if (name === "") return;
     await handleFetchRecord(name, score);
     handleGameStart();
     handleTimerInit();
@@ -29,12 +31,14 @@ const ResultBoard = () => {
   };
 
   const onExit = async () => {
+    if (name === "") return;
     await handleFetchRecord(name, score);
     handleNameInit();
     router.push("/home");
   };
 
   const onRanking = async () => {
+    if (name === "") return;
     await handleFetchRecord(name, score);
     handleNameInit();
     router.push("/ranking");
@@ -55,8 +59,7 @@ const ResultBoard = () => {
           <StyledContainer>
             <StyledResult>Result</StyledResult>
             <div>
-              <StyledScore>Score | {score}</StyledScore>
-              <StyledScore>Top Score | {score}</StyledScore>
+              <StyledScore>Score | {commaPerThousand(score)}</StyledScore>
             </div>
             <StyledButtonContainer>
               <StyledButton onClick={onExit}>
