@@ -1,18 +1,24 @@
-import { GameManager } from "@/contexts/GameManager";
-import { commaPerThousand } from "@/libs/client/utils";
-import { RENDER } from "@/styles/theme";
-import React, { useContext } from "react";
+import {GameManager} from "@/contexts/GameManager";
+import {commaPerThousand} from "@/libs/client/utils";
+import {tremblingAnimation} from "@/styles/animations";
+import {RENDER} from "@/styles/theme";
+import React, {useContext} from "react";
 import styled from "styled-components";
 
 const ScoreBoard = () => {
-  const { score } = useContext(GameManager);
+  const {score} = useContext(GameManager);
 
-  return <StyledScoreBoard>Score | {commaPerThousand(score)}</StyledScoreBoard>;
+  return (
+    <StyledScoreBoard>
+      <StyledScore>Score | {commaPerThousand(score)}</StyledScore>
+    </StyledScoreBoard>
+  );
 };
 
 export default ScoreBoard;
 
 const StyledScoreBoard = styled.div`
+  display: inline-block;
   padding: 10px 20px;
   border-radius: 15px;
 
@@ -26,3 +32,5 @@ const StyledScoreBoard = styled.div`
 
   ${RENDER.glassmophism};
 `;
+
+const StyledScore = styled.div``;

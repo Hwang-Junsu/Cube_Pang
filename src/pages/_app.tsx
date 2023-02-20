@@ -1,17 +1,20 @@
-import { GameProvider } from "@/contexts/GameManager";
-import { TimerProvider } from "@/contexts/TimerContext";
+import {GameProvider} from "@/contexts/GameManager";
+import {TimerProvider} from "@/contexts/TimerContext";
+import {UserProvider} from "@/contexts/UserContext";
+import {theme} from "@/styles/theme";
+import type {AppProps} from "next/app";
+import {ThemeProvider} from "styled-components";
 import "@/styles/globals.css";
-import { theme } from "@/styles/theme";
-import type { AppProps } from "next/app";
-import { ThemeProvider } from "styled-components";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({Component, pageProps}: AppProps) {
   return (
     <TimerProvider>
       <GameProvider>
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
+        <UserProvider>
+          <ThemeProvider theme={theme}>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </UserProvider>
       </GameProvider>
     </TimerProvider>
   );

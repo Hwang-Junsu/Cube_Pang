@@ -2,27 +2,43 @@ import {GameManager} from "@/contexts/GameManager";
 import {TimerContext} from "@/contexts/TimerContext";
 import {RENDER} from "@/styles/theme";
 import {useRouter} from "next/router";
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Image from "next/legacy/image";
 import exitIcon from "/public/arrow-right-from-bracket.svg";
 import restartIcon from "/public/arrow-roatate-left.svg";
+import rankingIcon from "/public/ranking.svg";
 import styled from "styled-components";
+import {UserContext} from "@/contexts/UserContext";
 
 const ResultBoard = () => {
   const {timer, handleCountDownStart, handleTimerInit, handleCountDownInit} =
     useContext(TimerContext);
-  const {score, handleGameStart, handleGameInit} = useContext(GameManager);
+  const {score, handleGameStart, handleGameInit, handleFetchRecord} =
+    useContext(GameManager);
+  const {name, handleNameInit} = useContext(UserContext);
   const [isGameOver, setIsGameOver] = useState(false);
-
   const router = useRouter();
 
-  const onRestart = useCallback(() => {
+  const onRestart = async () => {
+    await handleFetchRecord(name, score);
     handleGameStart();
     handleTimerInit();
     setIsGameOver(false);
     handleCountDownStart();
     handleGameInit();
-  }, []);
+  };
+
+  const onExit = async () => {
+    await handleFetchRecord(name, score);
+    handleNameInit();
+    router.push("/home");
+  };
+
+  const onRanking = async () => {
+    await handleFetchRecord(name, score);
+    handleNameInit();
+    router.push("/ranking");
+  };
 
   useEffect(() => {
     if (timer <= 0) {
@@ -43,10 +59,13 @@ const ResultBoard = () => {
               <StyledScore>Top Score | {score}</StyledScore>
             </div>
             <StyledButtonContainer>
-              <StyledButton onClick={() => router.push("/home")}>
+              <StyledButton onClick={onExit}>
                 <Image src={exitIcon} width={30} height={30} alt="exit" />
               </StyledButton>
-              <StyledButton onClick={() => onRestart()}>
+              <StyledButton onClick={onRanking}>
+                <Image src={rankingIcon} width={30} height={30} alt="restart" />
+              </StyledButton>
+              <StyledButton onClick={onRestart}>
                 <Image src={restartIcon} width={30} height={30} alt="restart" />
               </StyledButton>
             </StyledButtonContainer>

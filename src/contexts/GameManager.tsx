@@ -13,20 +13,11 @@ import {
   IBlockColor,
   IBlockColorWithIndex,
   IBlockIndex,
+  IGameManagerProps,
   Nullable,
+  Props,
 } from "@/types/logic";
 import {createContext, useCallback, useEffect, useState} from "react";
-
-interface IGameManagerProps {
-  board: IBlockColor[][];
-  firstChoice: Nullable<IBlockIndex>;
-  secondChoice: Nullable<IBlockIndex>;
-  onSelect: (x: number, y: number) => void;
-  score: number;
-  handleGameStart: () => void;
-  handleGameInit: () => void;
-  isGamePlay: boolean;
-}
 
 const initialProps: IGameManagerProps = {
   board: [[]],
@@ -36,23 +27,21 @@ const initialProps: IGameManagerProps = {
   score: 0,
   handleGameStart: () => {},
   handleGameInit: () => {},
+  handleFetchRecord: () => new Promise((resolve) => resolve),
   isGamePlay: false,
 };
 
 const GameManager = createContext(initialProps);
 
-interface Props {
-  children: JSX.Element | JSX.Element[];
-}
-
 const GameProvider = ({children}: Props) => {
   const [board, setBoard] = useState<IBlockColor[][]>(
     Array.from({length: BOARD_SIZE}, () =>
-      Array.from({length: BOARD_SIZE}, () => {
+      Array.from({length: BOARD_SIZE}, (_, idx) => {
         const randomNum = Math.floor(Math.random() * COLORS_LENGTH);
         return {
           color: BLOCK_COLORS[COLORS[randomNum]],
           value: COLORS[randomNum],
+          index: idx,
         };
       })
     )
@@ -73,6 +62,13 @@ const GameProvider = ({children}: Props) => {
     }
   };
 
+  const handleFetchRecord = useCallback(async (name: string, score: number) => {
+    await fetch("/api/ranking", {
+      method: "POST",
+      body: JSON.stringify({name, score}),
+    });
+  }, []);
+
   const handleGameInit = useCallback(() => {
     setFirstChoice(null);
     setSecondChoice(null);
@@ -82,11 +78,12 @@ const GameProvider = ({children}: Props) => {
     setScore(0);
     setBoard(
       Array.from({length: BOARD_SIZE}, () =>
-        Array.from({length: BOARD_SIZE}, () => {
+        Array.from({length: BOARD_SIZE}, (_, idx) => {
           const randomNum = Math.floor(Math.random() * COLORS_LENGTH);
           return {
             color: BLOCK_COLORS[COLORS[randomNum]],
             value: COLORS[randomNum],
+            index: idx,
           };
         })
       )
@@ -133,10 +130,12 @@ const GameProvider = ({children}: Props) => {
             newBoard[row].push({
               color: BLOCK_COLORS[COLORS[randomNum]],
               value: COLORS[randomNum],
+              index: BOARD_SIZE - i,
             });
           }
         }
       }
+
       return newBoard;
     });
   }, []);
@@ -229,6 +228,7 @@ const GameProvider = ({children}: Props) => {
         score,
         handleGameStart,
         handleGameInit,
+        handleFetchRecord,
         isGamePlay,
       }}
     >
