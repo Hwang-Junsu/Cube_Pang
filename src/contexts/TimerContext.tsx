@@ -1,5 +1,6 @@
 import {COUNTDOWN_TIME, PLAY_TIME} from "@/constants/constants";
-import {ITimerContextProps, Props} from "@/types/logic";
+import {ITimerContextProps} from "@/types/logic";
+import {Props} from "@/types/types";
 import {createContext, useCallback, useEffect, useState} from "react";
 
 const initialProps: ITimerContextProps = {

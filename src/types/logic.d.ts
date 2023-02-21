@@ -1,10 +1,3 @@
-export type Nullable<T> = T | null;
-
-export interface Props {
-  children: JSX.Element | JSX.Element[];
-  handleStart?: () => void;
-}
-
 export interface IGameManagerProps {
   board: IBlockColor[][];
   firstChoice: Nullable<IBlockIndex>;
@@ -25,12 +18,6 @@ export interface ITimerContextProps {
   handleCountDownInit: () => void;
   startCount: number;
   isWorkTimer: boolean;
-}
-
-export interface IUserContextProps {
-  name: string;
-  handleName: (arg: string) => void;
-  handleNameInit: () => void;
 }
 
 export interface IBlockIndex {
@@ -56,3 +43,15 @@ export interface IBlockProps extends IBlockIndex {
   color: string;
   value: string;
 }
+
+export type FetchRecordParameter = (
+  name: string,
+  score: number
+) => Promise<void>;
+
+export type ConvertParameter = (blocks: IBlcokIndex[]) => void;
+
+export type SwapParameter = (
+  first: IBlockColorWithIndex,
+  second: IBlockColorWithIndex
+) => void;

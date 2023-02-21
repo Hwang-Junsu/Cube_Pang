@@ -1,6 +1,5 @@
 import {GameManager} from "@/contexts/GameManager";
 import {commaPerThousand} from "@/libs/client/utils";
-import {tremblingAnimation} from "@/styles/animations";
 import {RENDER} from "@/styles/theme";
 import React, {useContext} from "react";
 import styled from "styled-components";

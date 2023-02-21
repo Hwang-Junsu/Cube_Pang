@@ -50,10 +50,10 @@ export function analyzePuzzleBlock(
   ignoreIndex?: IBlockColorWithIndex
 ) {
   let toBeDestroyedBlockIndex: IBlockIndex[] = [];
-  for (let i = 0; i < 2; i++) {
+  for (let axis = 0; axis < 2; axis++) {
     const line = [
-      ...analyze(board, index, i, ignoreIndex),
-      ...analyze(board, index, i + 2, ignoreIndex),
+      ...analyze(board, index, axis, ignoreIndex),
+      ...analyze(board, index, axis + 2, ignoreIndex),
     ];
     if (line.length >= 2) {
       line.forEach((block) => toBeDestroyedBlockIndex.push(block));
@@ -70,13 +70,13 @@ export function analyzeBoard(board: IBlockColor[][]) {
     Array.from({length: BOARD_SIZE}, () => false)
   );
 
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    for (let j = 0; j < BOARD_SIZE; j++) {
-      if (visited[i][j]) continue;
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      if (visited[row][col]) continue;
       const blocks = analyzePuzzleBlock(board, {
-        x: i,
-        y: j,
-        value: board[i][j].value,
+        x: row,
+        y: col,
+        value: board[row][col].value,
       });
       blocks.forEach((block) => (visited[block.x][block.y] = true));
 
@@ -106,9 +106,9 @@ export function isPossilbeMove(
   index1: IBlockColorWithIndex,
   index2: IBlockColorWithIndex
 ) {
-  for (let i = 0; i < 4; i++) {
-    const nx = index1.x + dx[i];
-    const ny = index1.y + dy[i];
+  for (let dir = 0; dir < 4; dir++) {
+    const nx = index1.x + dx[dir];
+    const ny = index1.y + dy[dir];
 
     if (nx === index2.x && ny === index2.y) return true;
   }

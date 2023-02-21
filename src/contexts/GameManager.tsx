@@ -10,13 +10,15 @@ import {
   isPossilbeMove,
 } from "@/libs/client/gameLogic";
 import {
+  ConvertParameter,
+  FetchRecordParameter,
   IBlockColor,
   IBlockColorWithIndex,
   IBlockIndex,
   IGameManagerProps,
-  Nullable,
-  Props,
+  SwapParameter,
 } from "@/types/logic";
+import {Nullable, Props} from "@/types/types";
 import {createContext, useCallback, useEffect, useState} from "react";
 
 const initialProps: IGameManagerProps = {
@@ -62,12 +64,15 @@ const GameProvider = ({children}: Props) => {
     }
   };
 
-  const handleFetchRecord = useCallback(async (name: string, score: number) => {
-    await fetch("/api/ranking", {
-      method: "POST",
-      body: JSON.stringify({name, score}),
-    });
-  }, []);
+  const handleFetchRecord: FetchRecordParameter = useCallback(
+    async (name, score) => {
+      await fetch("/api/ranking", {
+        method: "POST",
+        body: JSON.stringify({name, score}),
+      });
+    },
+    []
+  );
 
   const handleGameInit = useCallback(() => {
     setFirstChoice(null);
@@ -94,7 +99,7 @@ const GameProvider = ({children}: Props) => {
     setIsGamePlay(true);
   }, []);
 
-  const handleConvert = useCallback((blocks: IBlockIndex[]) => {
+  const handleConvert: ConvertParameter = useCallback((blocks) => {
     const destroyBlocks = blocks;
     setBoard((prevBoard) => {
       const newBoard = [...prevBoard];
@@ -140,8 +145,8 @@ const GameProvider = ({children}: Props) => {
     });
   }, []);
 
-  const handleSwap = useCallback(
-    (first: IBlockColorWithIndex, second: IBlockColorWithIndex) => {
+  const handleSwap: SwapParameter = useCallback(
+    (first, second) => {
       if (!isPossilbeMove(first, second)) return;
 
       const toBeDestroyed = hasDestroyedBlock(board, first, second);

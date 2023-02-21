@@ -10,6 +10,9 @@ import rankingIcon from "/public/ranking.svg";
 import styled from "styled-components";
 import {UserContext} from "@/contexts/UserContext";
 import {commaPerThousand} from "@/libs/client/utils";
+import Loading from "./Loading";
+import IconButton from "./IconButton";
+import ErrorAlert from "./ErrorAlert";
 
 const ResultBoard = () => {
   const {timer, handleCountDownStart, handleTimerInit, handleCountDownInit} =
@@ -18,30 +21,50 @@ const ResultBoard = () => {
     useContext(GameManager);
   const {name, handleNameInit} = useContext(UserContext);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const router = useRouter();
 
   const onRestart = async () => {
-    if (name === "") return;
-    await handleFetchRecord(name, score);
-    handleGameStart();
-    handleTimerInit();
-    setIsGameOver(false);
-    handleCountDownStart();
-    handleGameInit();
+    setIsLoading((props) => !props);
+    try {
+      await handleFetchRecord(name, score);
+    } catch (e) {
+      setIsError(true);
+      return;
+    } finally {
+      handleGameStart();
+      handleTimerInit();
+      setIsGameOver(false);
+      handleCountDownStart();
+      handleGameInit();
+    }
   };
 
   const onExit = async () => {
-    if (name === "") return;
-    await handleFetchRecord(name, score);
-    handleNameInit();
-    router.push("/home");
+    setIsLoading((props) => !props);
+    try {
+      await handleFetchRecord(name, score);
+    } catch (e) {
+      setIsError(true);
+      return;
+    } finally {
+      handleNameInit();
+      router.push("/home");
+    }
   };
 
   const onRanking = async () => {
-    if (name === "") return;
-    await handleFetchRecord(name, score);
-    handleNameInit();
-    router.push("/ranking");
+    setIsLoading((props) => !props);
+    try {
+      await handleFetchRecord(name, score);
+    } catch (e) {
+      setIsError(true);
+      return;
+    } finally {
+      handleNameInit();
+      router.push("/ranking");
+    }
   };
 
   useEffect(() => {
@@ -62,19 +85,21 @@ const ResultBoard = () => {
               <StyledScore>Score | {commaPerThousand(score)}</StyledScore>
             </div>
             <StyledButtonContainer>
-              <StyledButton onClick={onExit}>
+              <IconButton onClick={onExit}>
                 <Image src={exitIcon} width={30} height={30} alt="exit" />
-              </StyledButton>
-              <StyledButton onClick={onRanking}>
+              </IconButton>
+              <IconButton onClick={onRanking}>
                 <Image src={rankingIcon} width={30} height={30} alt="restart" />
-              </StyledButton>
-              <StyledButton onClick={onRestart}>
+              </IconButton>
+              <IconButton onClick={onRestart}>
                 <Image src={restartIcon} width={30} height={30} alt="restart" />
-              </StyledButton>
+              </IconButton>
             </StyledButtonContainer>
           </StyledContainer>
         </StyledLayout>
       )}
+      {isLoading ? <Loading /> : null}
+      {isError ? <ErrorAlert /> : null}
     </>
   );
 };
@@ -127,22 +152,4 @@ const StyledButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-`;
-
-const StyledButton = styled.button`
-  width: 50px;
-  height: 50px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 15px;
-
-  box-shadow: ${(props) => props.theme.boxShadow.normal};
-  ${RENDER.glassmophism}
-
-  &:hover {
-    transform: scale(1.05);
-    transition: all 0.3s ease-in-out;
-  }
 `;

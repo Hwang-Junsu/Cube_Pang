@@ -1,4 +1,4 @@
-import {IUserContextProps, Props} from "@/types/logic";
+import {IUserContextProps, Props} from "@/types/types";
 import {createContext, useCallback, useState} from "react";
 
 const initialProps: IUserContextProps = {
