@@ -1,5 +1,5 @@
 import {BOARD_RENDER_SIZE} from "@/constants/constants";
-import {BLOCK_RENDER_SIZE, BLOCK_GAP} from "./../constants/constants";
+import {BLOCK_RENDER_SIZE} from "./../constants/constants";
 import {DefaultTheme} from "styled-components";
 
 export const theme: DefaultTheme = {

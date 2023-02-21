@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import Logo from "@/components/Logo";
-import Modal from "@/components/Modal";
+import NameChecker from "@/components/NameChecker";
 import {UserContext} from "@/contexts/UserContext";
 import {RENDER} from "@/styles/theme";
 import {NextPage} from "next";
@@ -42,7 +42,7 @@ const Home: NextPage = () => {
         </StyledMenu>
       </StyledContainer>
 
-      {isOpenName && <Modal setIsOpen={setIsOpenName} />}
+      {isOpenName && <NameChecker setIsOpen={setIsOpenName} />}
     </Layout>
   );
 };
