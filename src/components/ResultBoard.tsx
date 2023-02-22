@@ -38,6 +38,7 @@ const ResultBoard = () => {
       setIsGameOver(false);
       handleCountDownStart();
       handleGameInit();
+      setIsLoading(false);
     }
   };
 
