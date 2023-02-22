@@ -13,7 +13,6 @@ import {
   ConvertParameter,
   FetchRecordParameter,
   IBlockColor,
-  IBlockColorWithIndex,
   IBlockIndex,
   IGameManagerProps,
   SwapParameter,
