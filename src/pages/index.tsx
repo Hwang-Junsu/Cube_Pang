@@ -6,20 +6,26 @@ import ScoreBoard from "@/components/ScoreBoard";
 import Timer from "@/components/Timer";
 import StartCount from "@/components/StartCount";
 import ResultBoard from "@/components/ResultBoard";
+import {GameProvider} from "@/contexts/GameContext";
+import {TimerProvider} from "@/contexts/TimerContext";
 
 const Home: NextPage = () => {
   return (
-    <Layout seoTitle="Game">
-      <StyledContainer>
-        <StyledGameInfoContainer>
-          <Timer />
-          <ScoreBoard />
-        </StyledGameInfoContainer>
-        <Board />
-      </StyledContainer>
-      <StartCount />
-      <ResultBoard />
-    </Layout>
+    <TimerProvider>
+      <GameProvider>
+        <Layout seoTitle="Game">
+          <StyledContainer>
+            <StyledGameInfoContainer>
+              <Timer />
+              <ScoreBoard />
+            </StyledGameInfoContainer>
+            <Board />
+          </StyledContainer>
+          <StartCount />
+          <ResultBoard />
+        </Layout>
+      </GameProvider>
+    </TimerProvider>
   );
 };
 

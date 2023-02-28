@@ -1,4 +1,4 @@
-import {GameManager} from "@/contexts/GameManager";
+import {GameManager} from "@/contexts/GameContext";
 import {TimerContext} from "@/contexts/TimerContext";
 import {appearAnimation} from "@/styles/animations";
 import {RENDER} from "@/styles/theme";

@@ -1,4 +1,4 @@
-import {GameManager} from "@/contexts/GameManager";
+import {GameManager} from "@/contexts/GameContext";
 import {commaPerThousand} from "@/libs/client/utils";
 import {RENDER} from "@/styles/theme";
 import React, {useContext} from "react";

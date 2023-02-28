@@ -1,4 +1,4 @@
-import {GameManager} from "@/contexts/GameManager";
+import {GameManager} from "@/contexts/GameContext";
 import {TimerContext} from "@/contexts/TimerContext";
 import {RENDER} from "@/styles/theme";
 import {useRouter} from "next/router";
