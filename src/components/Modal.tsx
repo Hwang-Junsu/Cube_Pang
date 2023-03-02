@@ -5,13 +5,19 @@ import styled from "styled-components";
 const Modal = ({
   children,
   opacity = 0.1,
+  width = "500px",
+  height = "350px",
 }: {
   children: React.ReactNode;
   opacity?: number;
+  width?: string;
+  height?: string;
 }) => {
   return (
     <StyledLayout opacity={opacity}>
-      <StyledContainer>{children}</StyledContainer>
+      <StyledContainer width={width} height={height}>
+        {children}
+      </StyledContainer>
     </StyledLayout>
   );
 };
@@ -34,10 +40,10 @@ const StyledLayout = styled.div<{opacity: number}>`
   align-items: center;
 `;
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.div<{width: string; height: string}>`
   position: relative;
-  width: 500px;
-  height: 350px;
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
 
   display: flex;
   justify-content: center;

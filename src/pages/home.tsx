@@ -1,3 +1,4 @@
+import HowToPlay from "@/components/HowToPlay";
 import Layout from "@/components/Layout";
 import Logo from "@/components/Logo";
 import NameChecker from "@/components/NameChecker";
@@ -10,6 +11,7 @@ import styled from "styled-components";
 
 const Home: NextPage = () => {
   const [isOpenName, setIsOpenName] = useState<boolean>(false);
+  const [isOpenHowToPlay, setIsOpenHowToPlay] = useState<boolean>(false);
   const {handleNameInit} = useContext(UserContext);
 
   const {name} = useContext(UserContext);
@@ -23,7 +25,9 @@ const Home: NextPage = () => {
     router.push("/ranking");
   };
 
-  const onClickHowToPlay = () => {};
+  const onClickHowToPlay = () => {
+    setIsOpenHowToPlay((props) => !props);
+  };
 
   useEffect(() => {
     handleNameInit();
@@ -43,6 +47,7 @@ const Home: NextPage = () => {
       </StyledContainer>
 
       {isOpenName && <NameChecker setIsOpen={setIsOpenName} />}
+      {isOpenHowToPlay && <HowToPlay setIsOpen={setIsOpenHowToPlay} />}
     </Layout>
   );
 };

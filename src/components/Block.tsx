@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useSpring, animated} from "react-spring";
 import styled, {css} from "styled-components";
 import {BLOCK_X_POSITION, BLOCK_Y_POSITION} from "@/constants/constants";
