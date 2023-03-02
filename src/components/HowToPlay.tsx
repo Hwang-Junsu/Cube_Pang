@@ -122,6 +122,7 @@ const StyledImageContainer = styled.div`
 const StyledImage = styled(Image)`
   object-fit: cover;
   height: 300px;
+  user-select: none;
 `;
 
 const StyledBottomContainer = styled.div`
@@ -132,14 +133,13 @@ const StyledBottomContainer = styled.div`
 
   padding: 10px 5px;
   border-radius: 15px;
-
-  box-shadow: ${(props) => props.theme.boxShadow.normal};
-  ${RENDER.glassmophism}
 `;
 
 const StyledDescription = styled.div`
-  font-weight: bold;
-  font-size: 17px;
-  letter-spacing: -1px;
-  color: black;
+  user-select: none;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -1.5px;
+  color: white;
+  text-shadow: 1px 0px 12px rgba(0, 0, 0, 1);
 `;
