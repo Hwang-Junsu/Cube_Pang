@@ -6,6 +6,4 @@ export interface IBlockRenderProps {
   y: number;
   isSeletced: boolean;
   isAnimated: boolean;
-  isSwap: boolean;
-  direction: number;
 }

@@ -1,3 +1,4 @@
+import {IBlockIndex} from "./../types/logic.d";
 import {BLOCK_RENDER_SIZE} from "./../constants/constants";
 import {keyframes} from "styled-components";
 
@@ -40,13 +41,16 @@ export const blockTopDown = (x: number, y: number) => keyframes`
     }
 `;
 
-export const blockSwap = (x: number, y: number, dir: number) => keyframes`
+export const blockSwap = (
+  firstChoice: IBlockIndex,
+  secondChoice: IBlockIndex
+) => keyframes`
     from {
-        transform: translateX(${x}px) translateY(${y}px);
+        transform: translateX(${firstChoice.x}px) translateY(${firstChoice.y}px);
     }
     to {
-        transform: translateX(${x + direction[dir][0]}px) 
-        translateY(${y + direction[dir][1]}px);
+        transform: translateX(${secondChoice.x}px) 
+        translateY(${secondChoice.y}px);
     }
 `;
 

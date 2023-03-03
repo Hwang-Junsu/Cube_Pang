@@ -18,7 +18,8 @@ import {
   SwapParameter,
 } from "@/types/logic";
 import {Nullable, Props} from "@/types/types";
-import {createContext, useCallback, useEffect, useState} from "react";
+import produce from "immer";
+import {createContext, useCallback, useEffect, useMemo, useState} from "react";
 
 const initialProps: IGameManagerProps = {
   board: [[]],
@@ -35,18 +36,22 @@ const initialProps: IGameManagerProps = {
 const GameManager = createContext(initialProps);
 
 const GameProvider = ({children}: Props) => {
-  const [board, setBoard] = useState<IBlockColor[][]>(
-    Array.from({length: BOARD_SIZE}, () =>
-      Array.from({length: BOARD_SIZE}, (_, idx) => {
-        const randomNum = Math.floor(Math.random() * COLORS_LENGTH);
-        return {
-          color: BLOCK_COLORS[COLORS[randomNum]],
-          value: COLORS[randomNum],
-          index: idx,
-        };
-      })
-    )
+  const initialBoard = useMemo(
+    () =>
+      Array.from({length: BOARD_SIZE}, () =>
+        Array.from({length: BOARD_SIZE}, (_, idx) => {
+          const randomNum = Math.floor(Math.random() * COLORS_LENGTH);
+          return {
+            color: BLOCK_COLORS[COLORS[randomNum]],
+            value: COLORS[randomNum],
+            index: idx,
+          };
+        })
+      ),
+    []
   );
+
+  const [board, setBoard] = useState<IBlockColor[][]>(initialBoard);
   const [firstChoice, setFirstChoice] = useState<Nullable<IBlockIndex>>(null);
   const [secondChoice, setSecondChoice] = useState<Nullable<IBlockIndex>>(null);
   const [isBreakTime, setIsBreakTime] = useState<boolean>(false);
@@ -54,14 +59,17 @@ const GameProvider = ({children}: Props) => {
   const [isGamePlay, setIsGamePlay] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
 
-  const onSelect = (cx: number, cy: number) => {
-    if (isBreakTime) return;
-    if (!firstChoice) {
-      setFirstChoice({x: cx, y: cy});
-    } else {
-      setSecondChoice({x: cx, y: cy});
-    }
-  };
+  const onSelect = useCallback(
+    (cx: number, cy: number) => {
+      if (isBreakTime) return;
+      if (!firstChoice) {
+        setFirstChoice({x: cx, y: cy});
+      } else {
+        setSecondChoice({x: cx, y: cy});
+      }
+    },
+    [firstChoice, isBreakTime]
+  );
 
   const handleFetchRecord: FetchRecordParameter = useCallback(
     async (name, score) => {
@@ -80,18 +88,7 @@ const GameProvider = ({children}: Props) => {
     setIsHandleSwap(false);
     setIsGamePlay(false);
     setScore(0);
-    setBoard(
-      Array.from({length: BOARD_SIZE}, () =>
-        Array.from({length: BOARD_SIZE}, (_, idx) => {
-          const randomNum = Math.floor(Math.random() * COLORS_LENGTH);
-          return {
-            color: BLOCK_COLORS[COLORS[randomNum]],
-            value: COLORS[randomNum],
-            index: idx,
-          };
-        })
-      )
-    );
+    setBoard(initialBoard);
   }, []);
 
   const handleGameStart = useCallback(() => {
@@ -99,48 +96,45 @@ const GameProvider = ({children}: Props) => {
   }, []);
 
   const handleConvert: ConvertParameter = useCallback((blocks) => {
-    const destroyBlocks = blocks;
     setBoard((prevBoard) => {
-      const newBoard = [...prevBoard];
-
-      destroyBlocks.forEach((block) => {
-        newBoard[block.x][block.y].value = "broken";
+      return produce(prevBoard, (newBoard) => {
+        blocks.forEach((block) => {
+          newBoard[block.x][block.y].value = "broken";
+        });
       });
-
-      return newBoard;
     });
-    setScore((prev) => prev + destroyBlocks.length * 100);
+    setScore((prev) => prev + blocks.length * 100);
   }, []);
 
   const handleBreak = useCallback(() => {
     setBoard((prevBoard) => {
-      const newBoard = [...prevBoard];
-
-      return newBoard.map((row) =>
-        row.filter((block) => block.value !== "broken")
-      );
+      return produce(prevBoard, (newBoard) => {
+        for (let row = 0; row < BOARD_SIZE; row++) {
+          newBoard[row] = newBoard[row].filter(
+            (block) => block.value !== "broken"
+          );
+        }
+      });
     });
   }, []);
 
   const handleFillBoard = useCallback(() => {
     setBoard((prevBoard) => {
-      const newBoard = [...prevBoard];
-
-      for (let row = 0; row < BOARD_SIZE; row++) {
-        const rowLength = newBoard[row].length;
-        if (rowLength < BOARD_SIZE) {
-          for (let i = rowLength; i < BOARD_SIZE; i++) {
-            const randomNum = Math.floor(Math.random() * COLORS_LENGTH);
-            newBoard[row].push({
-              color: BLOCK_COLORS[COLORS[randomNum]],
-              value: COLORS[randomNum],
-              index: BOARD_SIZE - i,
-            });
+      return produce(prevBoard, (newBoard) => {
+        for (let row = 0; row < BOARD_SIZE; row++) {
+          const rowLength = newBoard[row].length;
+          if (rowLength < BOARD_SIZE) {
+            for (let i = rowLength; i < BOARD_SIZE; i++) {
+              const randomNum = Math.floor(Math.random() * COLORS_LENGTH);
+              newBoard[row].push({
+                color: BLOCK_COLORS[COLORS[randomNum]],
+                value: COLORS[randomNum],
+                index: BOARD_SIZE - i,
+              });
+            }
           }
         }
-      }
-
-      return newBoard;
+      });
     });
   }, []);
 
@@ -149,29 +143,39 @@ const GameProvider = ({children}: Props) => {
       if (!isPossilbeMove(first, second)) return;
 
       const toBeDestroyed = hasDestroyedBlock(board, first, second);
-      if (!toBeDestroyed.length) return;
-
-      const saveFirst = board[first!.x][first!.y];
-      const saveSecond = board[second!.x][second!.y];
-      setBoard((prevBoard: IBlockColor[][]) => {
-        const newBoard = [...prevBoard];
+      let needsUpdate = false;
+      const newBoard = produce(board, (newBoard) => {
+        const saveFirst = newBoard[first!.x][first!.y];
+        const saveSecond = newBoard[second!.x][second!.y];
         newBoard[first!.x][first!.y] = saveSecond;
         newBoard[second!.x][second!.y] = saveFirst;
 
-        return newBoard;
+        toBeDestroyed.forEach((block) => {
+          if (newBoard[block.x][block.y].value !== "broken") {
+            newBoard[block.x][block.y].value = "broken";
+            needsUpdate = true;
+          }
+        });
       });
-      setTimeout(() => {
-        handleConvert(toBeDestroyed);
-      }, 100);
-      setTimeout(() => {
-        handleBreak();
-      }, 700);
-      setTimeout(() => {
-        handleFillBoard();
-      }, 800);
-      setTimeout(() => {
+      if (needsUpdate) {
+        setIsBreakTime(true);
+        setTimeout(() => {
+          setBoard(newBoard);
+          handleConvert(toBeDestroyed);
+        }, 100);
+        setTimeout(() => {
+          handleBreak();
+        }, 700);
+        setTimeout(() => {
+          handleFillBoard();
+        }, 800);
+        setTimeout(() => {
+          setIsHandleSwap(true);
+          setIsBreakTime(false);
+        }, 900);
+      } else {
         setIsHandleSwap(true);
-      }, 900);
+      }
     },
     [board, handleBreak, handleConvert, handleFillBoard]
   );
