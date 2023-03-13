@@ -1,6 +1,6 @@
-import {RENDER} from "@/styles/theme";
 import React from "react";
 import styled from "styled-components";
+import {RENDER} from "@/styles/theme";
 
 const Modal = ({
   children,

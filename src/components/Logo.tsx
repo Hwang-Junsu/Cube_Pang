@@ -1,7 +1,7 @@
-import {RENDER} from "@/styles/theme";
-import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
+import Link from "next/link";
+import {RENDER} from "@/styles/theme";
 
 const Logo = () => {
   return (

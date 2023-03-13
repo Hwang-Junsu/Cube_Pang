@@ -1,7 +1,7 @@
-import {commaPerThousand} from "@/libs/client/utils";
-import {IRecordProps} from "@/types/types";
 import React from "react";
 import styled from "styled-components";
+import {commaPerThousand} from "@/libs/client/utils";
+import {IRecordProps} from "@/types/types";
 import {RENDER} from "@/styles/theme";
 
 const Record = ({name, score, ranking}: IRecordProps) => {

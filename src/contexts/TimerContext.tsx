@@ -1,7 +1,13 @@
 import {COUNTDOWN_TIME, PLAY_TIME} from "@/constants/constants";
 import {ITimerContextProps} from "@/types/logic";
 import {Props} from "@/types/types";
-import {createContext, useCallback, useEffect, useState} from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 const initialProps: ITimerContextProps = {
   timer: PLAY_TIME,
@@ -14,6 +20,7 @@ const initialProps: ITimerContextProps = {
 };
 
 const TimerContext = createContext(initialProps);
+export const useTimer = () => useContext(TimerContext);
 
 const TimerProvider = ({children}: Props) => {
   const [timer, setTimer] = useState<number>(PLAY_TIME);

@@ -1,20 +1,19 @@
+import {useEffect, useState} from "react";
+import styled from "styled-components";
+import {NextPage} from "next";
+import {useRouter} from "next/router";
 import HowToPlay from "@/components/HowToPlay";
 import Layout from "@/components/Layout";
 import Logo from "@/components/Logo";
 import NameChecker from "@/components/NameChecker";
-import {UserContext} from "@/contexts/UserContext";
+import {useUser} from "@/contexts/UserContext";
 import {RENDER} from "@/styles/theme";
-import {NextPage} from "next";
-import {useRouter} from "next/router";
-import {useContext, useEffect, useState} from "react";
-import styled from "styled-components";
 
 const Home: NextPage = () => {
+  const {handleNameInit, name} = useUser();
   const [isOpenName, setIsOpenName] = useState<boolean>(false);
   const [isOpenHowToPlay, setIsOpenHowToPlay] = useState<boolean>(false);
-  const {handleNameInit} = useContext(UserContext);
 
-  const {name} = useContext(UserContext);
   const router = useRouter();
 
   const onClickStart = () => {

@@ -1,11 +1,10 @@
-import {TimerContext} from "@/contexts/TimerContext";
-import {RENDER} from "@/styles/theme";
-import React, {useContext, useEffect} from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
+import {useTimer} from "@/contexts/TimerContext";
+import {RENDER} from "@/styles/theme";
 
 const Timer = () => {
-  const {timer, handleTimerInit, handleCountDownInit} =
-    useContext(TimerContext);
+  const {timer, handleTimerInit, handleCountDownInit} = useTimer();
 
   useEffect(() => {
     return () => {

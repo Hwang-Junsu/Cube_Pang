@@ -1,13 +1,13 @@
-import {GameManager} from "@/contexts/GameContext";
-import {TimerContext} from "@/contexts/TimerContext";
+import React, {useEffect} from "react";
+import styled from "styled-components";
+import {useGameManager} from "@/contexts/GameContext";
+import {useTimer} from "@/contexts/TimerContext";
 import {appearAnimation} from "@/styles/animations";
 import {RENDER} from "@/styles/theme";
-import React, {useContext, useEffect} from "react";
-import styled from "styled-components";
 
 const StartCount = () => {
-  const {startCount, handleCountDownStart} = useContext(TimerContext);
-  const {isGamePlay, handleGameStart} = useContext(GameManager);
+  const {startCount, handleCountDownStart} = useTimer();
+  const {isGamePlay, handleGameStart} = useGameManager();
 
   useEffect(() => {
     handleCountDownStart();

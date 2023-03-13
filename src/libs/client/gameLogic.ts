@@ -2,6 +2,117 @@ import {IBlockColorWithIndex} from "./../../types/logic.d";
 import {BOARD_SIZE} from "@/constants/constants";
 import {IBlockColor, IBlockIndex} from "@/types/logic";
 
+// export class Logic2D {
+//   public board: IBlockColor[][];
+//   public size: number;
+
+//   protected dx: number[] = [-1, 0, 1, 0];
+//   protected dy: number[] = [0, 1, 0, -1];
+
+//   constructor(board: IBlockColor[][], size: number) {
+//     this.board = board;
+//     this.size = size;
+//   }
+
+//   // 블록의 연속성을 평가.
+//   private isSequencialWithData(index: IBlockIndex, _data: string) {
+//     return this.board[index.x][index.y].value === _data;
+//   }
+
+//   // 방향에 따른 분석 및 저장
+//   analyze(
+//     index: IBlockColorWithIndex,
+//     dir: number,
+//     ignoreIndex?: IBlockColorWithIndex
+//   ) {
+//     const blocks: IBlockColorWithIndex[] = [];
+//     let nx = index.x + this.dx[dir];
+//     let ny = index.y + this.dy[dir];
+//     while (true) {
+//       if (nx < 0 || ny < 0 || nx >= BOARD_SIZE || ny >= BOARD_SIZE) break; // 범위를 나가면 멈춤
+//       if (!this.isSequencialWithData({x: nx, y: ny}, index.value)) break; // 연속되지 않으면 멈춤
+//       if (ignoreIndex && nx === ignoreIndex.x && ny === ignoreIndex.y) break; // 무시해야하는 좌표일 때 멈춤
+//       blocks.push({x: nx, y: ny, value: index.value});
+//       nx += this.dx[dir];
+//       ny += this.dy[dir];
+//     }
+//     return blocks;
+//   }
+// }
+
+// export class LogicCubePang extends Logic2D {
+//   constructor(board: IBlockColor[][], size: number) {
+//     super(board, size);
+//   }
+
+//   analyzePuzzleBlock(
+//     index: IBlockColorWithIndex,
+//     ignoreIndex?: IBlockColorWithIndex
+//   ) {
+//     let toBeDestroyedBlockIndex: IBlockIndex[] = [];
+//     for (let axis = 0; axis < 2; axis++) {
+//       const line = [
+//         ...this.analyze(index, axis, ignoreIndex),
+//         ...this.analyze(index, axis + 2, ignoreIndex),
+//       ];
+//       if (line.length >= 2) {
+//         line.forEach((block) => toBeDestroyedBlockIndex.push(block));
+//       }
+//     }
+//     if (toBeDestroyedBlockIndex.length > 0)
+//       toBeDestroyedBlockIndex.push({x: index.x, y: index.y});
+//     return toBeDestroyedBlockIndex;
+//   }
+
+//   analyzeBoard() {
+//     let destoryedBlocks: IBlockIndex[] = [];
+//     let visited = Array.from({length: BOARD_SIZE}, () =>
+//       Array.from({length: BOARD_SIZE}, () => false)
+//     );
+
+//     for (let row = 0; row < BOARD_SIZE; row++) {
+//       for (let col = 0; col < BOARD_SIZE; col++) {
+//         if (visited[row][col]) continue;
+//         const blocks = this.analyzePuzzleBlock({
+//           x: row,
+//           y: col,
+//           value: this.board[row][col].value,
+//         });
+//         blocks.forEach((block) => (visited[block.x][block.y] = true));
+
+//         destoryedBlocks = [...destoryedBlocks, ...blocks];
+//       }
+//     }
+//     return destoryedBlocks;
+//   }
+
+//   hasDestroyedBlock(
+//     index1: IBlockColorWithIndex,
+//     index2: IBlockColorWithIndex
+//   ) {
+//     const swapIndex1 = {...index1, value: index2.value};
+//     const swapIndex2 = {...index2, value: index1.value};
+
+//     const toBeDestroyed = [
+//       ...this.analyzePuzzleBlock(swapIndex1, index2),
+//       ...this.analyzePuzzleBlock(swapIndex2, index1),
+//     ];
+
+//     return toBeDestroyed;
+//   }
+
+//   isPossilbeMove(index1: IBlockColorWithIndex, index2: IBlockColorWithIndex) {
+//     for (let dir = 0; dir < 4; dir++) {
+//       const nx = index1.x + this.dx[dir];
+//       const ny = index1.y + this.dy[dir];
+
+//       if (nx === index2.x && ny === index2.y) return true;
+//     }
+
+//     return false;
+//   }
+// }
+
 const dx = [-1, 0, 1, 0];
 const dy = [0, 1, 0, -1];
 

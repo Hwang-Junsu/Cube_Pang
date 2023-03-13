@@ -1,15 +1,15 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useSpring, animated} from "react-spring";
 import styled, {css} from "styled-components";
+import {useGameManager} from "@/contexts/GameContext";
 import {BLOCK_X_POSITION, BLOCK_Y_POSITION} from "@/constants/constants";
 import {IBlockRenderProps} from "@/types/render";
 import {RENDER} from "@/styles/theme";
 import {blockShakingAnimation, blockFadeOut} from "@/styles/animations";
 import {IBlockProps} from "@/types/logic";
-import {GameManager} from "@/contexts/GameContext";
 
 const Block = ({x, y, color, value}: IBlockProps) => {
-  const {onSelect, firstChoice, secondChoice} = useContext(GameManager);
+  const {onSelect, firstChoice, secondChoice} = useGameManager();
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [isAnimated, setIsAnimated] = useState<boolean>(false);
   const [springProps, set] = useSpring(() => ({

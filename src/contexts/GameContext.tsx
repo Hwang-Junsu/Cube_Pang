@@ -19,7 +19,14 @@ import {
 } from "@/types/logic";
 import {Nullable, Props} from "@/types/types";
 import produce from "immer";
-import {createContext, useCallback, useEffect, useMemo, useState} from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 const initialProps: IGameManagerProps = {
   board: [[]],
@@ -34,6 +41,7 @@ const initialProps: IGameManagerProps = {
 };
 
 const GameManager = createContext(initialProps);
+export const useGameManager = () => useContext(GameManager);
 
 const GameProvider = ({children}: Props) => {
   const initialBoard = useMemo(

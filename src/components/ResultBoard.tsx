@@ -1,25 +1,25 @@
-import {GameManager} from "@/contexts/GameContext";
-import {TimerContext} from "@/contexts/TimerContext";
-import {RENDER} from "@/styles/theme";
-import {useRouter} from "next/router";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Image from "next/legacy/image";
+import styled from "styled-components";
+import {useRouter} from "next/router";
+import {useGameManager} from "@/contexts/GameContext";
+import {useTimer} from "@/contexts/TimerContext";
+import {useUser} from "@/contexts/UserContext";
+import {RENDER} from "@/styles/theme";
+import {commaPerThousand} from "@/libs/client/utils";
 import exitIcon from "/public/arrow-right-from-bracket.svg";
 import restartIcon from "/public/arrow-roatate-left.svg";
 import rankingIcon from "/public/ranking.svg";
-import styled from "styled-components";
-import {UserContext} from "@/contexts/UserContext";
-import {commaPerThousand} from "@/libs/client/utils";
 import Loading from "./Loading";
 import IconButton from "./IconButton";
 import ErrorAlert from "./ErrorAlert";
 
 const ResultBoard = () => {
   const {timer, handleCountDownStart, handleTimerInit, handleCountDownInit} =
-    useContext(TimerContext);
+    useTimer();
   const {score, handleGameStart, handleGameInit, handleFetchRecord} =
-    useContext(GameManager);
-  const {name, handleNameInit} = useContext(UserContext);
+    useGameManager();
+  const {name, handleNameInit} = useUser();
   const [isGameOver, setIsGameOver] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);

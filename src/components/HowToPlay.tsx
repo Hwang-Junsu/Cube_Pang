@@ -8,7 +8,6 @@ import leftIcon from "../../public/chevron-left-solid.svg";
 import rightIcon from "../../public/chevron-right-solid.svg";
 import {HOW_TO_PLAY_DATA} from "@/constants/constants";
 import IconButton from "./IconButton";
-import {RENDER} from "@/styles/theme";
 
 const HowToPlay = ({
   setIsOpen,

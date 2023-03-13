@@ -1,11 +1,11 @@
-import {GameManager} from "@/contexts/GameContext";
+import React from "react";
+import styled from "styled-components";
+import {useGameManager} from "@/contexts/GameContext";
 import {commaPerThousand} from "@/libs/client/utils";
 import {RENDER} from "@/styles/theme";
-import React, {useContext} from "react";
-import styled from "styled-components";
 
 const ScoreBoard = () => {
-  const {score} = useContext(GameManager);
+  const {score} = useGameManager();
 
   return (
     <StyledScoreBoard>

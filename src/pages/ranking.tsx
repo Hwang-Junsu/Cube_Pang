@@ -1,11 +1,11 @@
+import React from "react";
+import styled from "styled-components";
 import Layout from "@/components/Layout";
 import Logo from "@/components/Logo";
 import Record from "@/components/Record";
 import {RENDER} from "@/styles/theme";
 import {IRecordResponse} from "@/types/types";
 import {Record as RecordProps} from "@prisma/client";
-import React from "react";
-import styled from "styled-components";
 
 const Ranking = ({data}: IRecordResponse) => {
   return (
@@ -32,7 +32,7 @@ const Ranking = ({data}: IRecordResponse) => {
   );
 };
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const data = await (
     await fetch(`${process.env.NEXT_PUBLIC_URL}/api/ranking`)
   ).json();

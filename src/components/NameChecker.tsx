@@ -1,9 +1,9 @@
-import {UserContext} from "@/contexts/UserContext";
-import {RENDER} from "@/styles/theme";
+import React, {Dispatch, SetStateAction} from "react";
 import Image from "next/legacy/image";
 import {useRouter} from "next/router";
-import React, {Dispatch, SetStateAction, useContext} from "react";
 import styled from "styled-components";
+import {useUser} from "@/contexts/UserContext";
+import {RENDER} from "@/styles/theme";
 
 import playIcon from "/public/play.svg";
 import cancelIcon from "public/cancel.svg";
@@ -15,7 +15,7 @@ const NameChecker = ({
 }: {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const {handleName} = useContext(UserContext);
+  const {handleName} = useUser();
   const router = useRouter();
 
   const onClickCancel = (event: React.FormEvent<HTMLButtonElement>) => {

@@ -1,5 +1,5 @@
 import {IUserContextProps, Props} from "@/types/types";
-import {createContext, useCallback, useState} from "react";
+import {createContext, useCallback, useContext, useState} from "react";
 
 const initialProps: IUserContextProps = {
   name: "",
@@ -8,6 +8,7 @@ const initialProps: IUserContextProps = {
 };
 
 const UserContext = createContext(initialProps);
+export const useUser = () => useContext(UserContext);
 
 const UserProvider = ({children}: Props) => {
   const [name, setName] = useState<string>("");

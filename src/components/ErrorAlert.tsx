@@ -1,9 +1,9 @@
-import {useRouter} from "next/router";
 import React from "react";
-import IconButton from "./IconButton";
+import {useRouter} from "next/router";
 import Image from "next/legacy/image";
-import exitIcon from "/public/arrow-right-from-bracket.svg";
+import IconButton from "./IconButton";
 import Modal from "./Modal";
+import exitIcon from "/public/arrow-right-from-bracket.svg";
 
 const ErrorAlert = () => {
   const router = useRouter();
