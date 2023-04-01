@@ -26,7 +26,7 @@ const NameChecker = ({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // @ts-ignore
-    const input = event.target[0].value;
+    const input = event.target[0].value.trim();
 
     if (input === "" || input.length > 6) return;
 

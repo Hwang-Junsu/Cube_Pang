@@ -8,7 +8,7 @@ import {
   analyzeBoard,
   hasDestroyedBlock,
   isPossilbeMove,
-} from "@/libs/client/gameLogic";
+} from "@/libs/game/gameLogic";
 import {
   ConvertParameter,
   FetchRecordParameter,

@@ -21,7 +21,6 @@ const Block = ({x, y, color, value}: IBlockProps) => {
   useEffect(() => {
     if (firstChoice && secondChoice) {
       if (x === firstChoice.x && y === firstChoice.y) {
-        console.log(x, y);
         set({
           from: {
             transform: `translate3d(${BLOCK_X_POSITION(

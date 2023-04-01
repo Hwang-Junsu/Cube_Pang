@@ -1,4 +1,4 @@
-import {IBlockColorWithIndex} from "./../../types/logic.d";
+import {IBlockColorWithIndex} from "../../types/logic";
 import {BOARD_SIZE} from "@/constants/constants";
 import {IBlockColor, IBlockIndex} from "@/types/logic";
 
