@@ -9,7 +9,7 @@
 
 ## Deploy
 
-> ## **[Game Start](cube-pang.vercel.app)**
+> ## **[Game Start](https://cube-pang.vercel.app/home)**
 
 </br>
 
