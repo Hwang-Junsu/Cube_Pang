@@ -3,12 +3,11 @@ import Image from "next/legacy/image";
 import styled from "styled-components";
 import {v4 as uuid} from "uuid";
 import Modal from "./Modal";
-import exitIcon from "../../public/arrow-right-from-bracket.svg";
-import leftIcon from "../../public/chevron-left-solid.svg";
-import rightIcon from "../../public/chevron-right-solid.svg";
+import ExitIcon from "../../public/arrow-right-from-bracket.svg";
+import LeftIcon from "../../public/chevron-left-solid.svg";
+import RightIcon from "../../public/chevron-right-solid.svg";
 import {HOW_TO_PLAY_DATA} from "@/constants/constants";
 import IconButton from "./IconButton";
-import {RENDER} from "@/styles/theme";
 
 const HowToPlay = ({
   setIsOpen,
@@ -29,7 +28,7 @@ const HowToPlay = ({
     <Modal height="600px">
       <StyledExitButton onClick={() => setIsOpen((props) => !props)}>
         <IconButton>
-          <Image src={exitIcon} alt="exitIcon" width={30} height={30} />
+          <ExitIcon width="30" />
         </IconButton>
       </StyledExitButton>
 
@@ -42,6 +41,7 @@ const HowToPlay = ({
             <StyledImage
               src={HOW_TO_PLAY_DATA[pageNumber].image}
               alt="howtoplay"
+              placeholder="blur"
             />
           </StyledImageContainer>
           <StyledBottomContainer>
@@ -52,12 +52,12 @@ const HowToPlay = ({
         </StyledContainer>
         <StyledButton direction="left" onClick={onClickLeft}>
           <IconButton>
-            <Image src={leftIcon} alt="icon" width={30} height={30} />
+            <LeftIcon width="30" />
           </IconButton>
         </StyledButton>
         <StyledButton direction="right" onClick={onClickRight}>
           <IconButton>
-            <Image src={rightIcon} alt="icon" width={30} height={30} />
+            <RightIcon width="30" />
           </IconButton>
         </StyledButton>
       </StyledSlider>

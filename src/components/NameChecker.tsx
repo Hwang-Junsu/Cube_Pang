@@ -1,12 +1,11 @@
 import {UserContext} from "@/contexts/UserContext";
 import {RENDER} from "@/styles/theme";
-import Image from "next/legacy/image";
 import {useRouter} from "next/router";
 import React, {Dispatch, SetStateAction, useContext} from "react";
 import styled from "styled-components";
 
-import playIcon from "/public/play.svg";
-import cancelIcon from "public/cancel.svg";
+import PlayIcon from "/public/play.svg";
+import CancelIcon from "public/cancel.svg";
 import IconButton from "./IconButton";
 import Modal from "./Modal";
 
@@ -44,10 +43,10 @@ const NameChecker = ({
         />
         <StyledButtonContainer>
           <IconButton onClick={onClickCancel}>
-            <Image src={cancelIcon} width={30} height={30} alt="exit" />
+            <CancelIcon width="20" />
           </IconButton>
           <IconButton type="submit">
-            <Image src={playIcon} width={30} height={30} alt="exit" />
+            <PlayIcon width="20" />
           </IconButton>
         </StyledButtonContainer>
       </StyledForm>
