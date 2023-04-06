@@ -8,18 +8,14 @@ export interface Props {
 }
 
 export interface IRecordProps {
+  id?: number;
   name: string;
   score: number;
   ranking: number;
 }
 
-export interface IRecord {
-  ok: boolean;
-  records: Record[];
-}
-
 export interface IRecordResponse {
-  data: IRecord;
+  data: IRecordProps[];
 }
 
 export interface IUserContextProps {

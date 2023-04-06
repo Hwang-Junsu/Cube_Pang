@@ -67,7 +67,7 @@ const HowToPlay = ({
 
 export default HowToPlay;
 
-const StyledExitButton = styled.button`
+const StyledExitButton = styled.div`
   position: absolute;
   top: 30px;
   right: 30px;
@@ -102,7 +102,7 @@ const StyledIndex = styled.div`
   box-shadow: ${(props) => props.theme.boxShadow.normal};
 `;
 
-const StyledButton = styled.button<{direction: string}>`
+const StyledButton = styled.div<{direction: string}>`
   position: absolute;
   ${(props) => (props.direction === "left" ? "left: -50px" : "right: -50px")};
   top: 50%;

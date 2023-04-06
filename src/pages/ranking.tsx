@@ -2,8 +2,8 @@ import Layout from "@/components/Layout";
 import Logo from "@/components/Logo";
 import Record from "@/components/Record";
 import {RENDER} from "@/styles/theme";
-import {IRecordResponse} from "@/types/types";
-import {Record as RecordProps} from "@prisma/client";
+import {IRecordProps, IRecordResponse} from "@/types/types";
+import client from "@/libs/server/client";
 import React from "react";
 import styled from "styled-components";
 
@@ -18,7 +18,7 @@ const Ranking = ({data}: IRecordResponse) => {
             <StyledName>Name</StyledName>
             <StyledScore>Score</StyledScore>
           </StyledRecord>
-          {data.records.map((record: RecordProps, index: number) => (
+          {data.map((record: IRecordProps, index: number) => (
             <Record
               key={record.id}
               name={record.name}
@@ -33,10 +33,14 @@ const Ranking = ({data}: IRecordResponse) => {
 };
 
 export async function getServerSideProps() {
-  const data = await (
-    await fetch(`${process.env.NEXT_PUBLIC_URL}/api/ranking`)
-  ).json();
-  return {props: {data}};
+  const data = await client.record.findMany({
+    orderBy: {
+      score: "desc",
+    },
+    take: 10,
+  });
+
+  return {props: {data: JSON.parse(JSON.stringify(data))}};
 }
 
 export default Ranking;
