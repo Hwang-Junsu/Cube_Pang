@@ -4,15 +4,15 @@ import {RENDER} from "@/styles/theme";
 import {useRouter} from "next/router";
 import React, {useContext, useEffect, useState} from "react";
 import Image from "next/legacy/image";
-import exitIcon from "/public/arrow-right-from-bracket.svg";
-import restartIcon from "/public/arrow-roatate-left.svg";
-import rankingIcon from "/public/ranking.svg";
 import styled from "styled-components";
 import {UserContext} from "@/contexts/UserContext";
 import {commaPerThousand} from "@/libs/client/utils";
 import Loading from "./Loading";
 import IconButton from "./IconButton";
 import ErrorAlert from "./ErrorAlert";
+import ExitIcon from "/public/arrow-right-from-bracket.svg";
+import RestartIcon from "/public/arrow-roatate-left.svg";
+import RankingIcon from "/public/ranking.svg";
 
 const ResultBoard = () => {
   const {timer, handleCountDownStart, handleTimerInit, handleCountDownInit} =
@@ -87,13 +87,13 @@ const ResultBoard = () => {
             </div>
             <StyledButtonContainer>
               <IconButton onClick={onExit}>
-                <Image src={exitIcon} width={30} height={30} alt="exit" />
+                <ExitIcon width="30" />
               </IconButton>
               <IconButton onClick={onRanking}>
-                <Image src={rankingIcon} width={30} height={30} alt="restart" />
+                <RankingIcon width="30" />
               </IconButton>
               <IconButton onClick={onRestart}>
-                <Image src={restartIcon} width={30} height={30} alt="restart" />
+                <RestartIcon width="30" />
               </IconButton>
             </StyledButtonContainer>
           </StyledContainer>

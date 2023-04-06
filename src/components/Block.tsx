@@ -88,8 +88,8 @@ const Block = ({x, y, color, value}: IBlockProps) => {
       x={x}
       y={y}
       color={color}
-      isSeletced={isSelected}
-      isAnimated={isAnimated}
+      $isSeletced={isSelected}
+      $isAnimated={isAnimated}
     ></StyledBlock>
   );
 };
@@ -112,7 +112,7 @@ const StyledBlock = styled(animated.div)<IBlockRenderProps>`
   ${RENDER.blockSize};
 
   ${(props) =>
-    props.isSeletced &&
+    props.$isSeletced &&
     css`
       animation: ${blockShakingAnimation(
           BLOCK_X_POSITION(props.x),
@@ -121,7 +121,7 @@ const StyledBlock = styled(animated.div)<IBlockRenderProps>`
         0.4s infinite;
     `}
   ${(props) =>
-    props.isAnimated &&
+    props.$isAnimated &&
     css`
       animation: ${blockFadeOut(
           BLOCK_X_POSITION(props.x),
